@@ -1,16 +1,3 @@
-" vimrc file.
-"
-" Maintainer:	Filippo Squillace <feel.sqoox@gmail.com>
-" Last change:	2013 Apr 28
-" Last change:	2011 Feb 17
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
-
-
 """""""""""""""""""""""""""""""""""
 " GLOBAL VIM SETTINGS
 """""""""""""""""""""""""""""""""""
