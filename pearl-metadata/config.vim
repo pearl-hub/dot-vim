@@ -1,1 +1,1 @@
-source $PEARL_PKGDIR."/vimrc"
+source $PEARL_PKGDIR/vimrc
