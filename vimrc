@@ -182,8 +182,14 @@ set incsearch             " Incremental search
 set hlsearch
 
 " Set the dictionaries
-set complete +=k
-set dictionary=~/.vim/dict/*  "/usr/share/dict/*
+set complete+=k
+for dict_path in split(globpath("~/.vim/dict/", "*"), "\n")
+    exec "set dictionary+=".dict_path
+endfor
+for dict_path in split(globpath("/usr/share/dict/", "*"), "\n")
+    exec "set dictionary+=".dict_path
+endfor
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocompletion
