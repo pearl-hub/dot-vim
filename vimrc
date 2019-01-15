@@ -52,39 +52,6 @@ if &t_Co > 2 || has("gui_running")
   set t_ut=
 endif
 
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-  filetype on
-  filetype plugin on
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
-
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
-
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-  autocmd FileType html setlocal shiftwidth=2 tabstop=2
-  autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  " Also don't do it when the mark is in the first line, that is the default
-  " position when opening a file.
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-
-  augroup END
-
-endif " has("autocmd")
-
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
@@ -94,9 +61,9 @@ if !exists(":DiffOrig")
 endif
 
 if has('gui_running')
-    set background=light
+  set background=light
 else
-    set background=dark
+  set background=dark
 endif
 
 set number              " show te line numbers
@@ -125,8 +92,8 @@ set softtabstop=4   "Indent by 4 spaces when pressing <TAB>
 set autoindent      "Keep indentation from previous line
 set smartindent     "Automatically inserts indentation in some cases
 set cindent         "Like smartindent, but stricter and more customisable
+set tabstop=4  " Tabs are 4 spaces
 
-set ts=4  " Tabs are 4 spaces
 set backspace=2           " allow backspacing over everything in insert mode
 set diffopt=filler,iwhite " keep files synced and ignore whitespace
 set virtualedit=block     " let blocks be in virutal edit mode
@@ -137,7 +104,6 @@ set formatoptions=tcqr
 set smarttab
 set textwidth=0           " Don't wrap words by default
 "set textwidth=80          " This wraps a line with a break when you reach 80 chars
-set tabstop=8
 set smarttab
 set lbr
 set wrap "Wrap lines
@@ -165,12 +131,6 @@ set novisualbell  " No blinking .
 set noerrorbells  " No noise.
 set laststatus=2  " Always show status line.
 
-" Choose the fold method depending of the file type 
-" and unfold when opening it
-autocmd Syntax c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
-autocmd Syntax python setlocal foldmethod=indent
-autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,python normal zR
-
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Searching, substitutions
 """""""""""""""""""""""""""""""""""""""""""""""""""
@@ -185,32 +145,74 @@ set hlsearch
 " Set the dictionaries
 set complete+=k
 for dict_path in split(globpath("~/.vim/dict/", "*"), "\n")
-    exec "set dictionary+=".dict_path
+  exec "set dictionary+=".dict_path
 endfor
 for dict_path in split(globpath("/usr/share/dict/", "*"), "\n")
-    exec "set dictionary+=".dict_path
+  exec "set dictionary+=".dict_path
 endfor
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" Autocmd
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+  " Autocompletion
+  autocmd FileType python set omnifunc=pythoncomplete#Complete
+  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+  autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType c set omnifunc=ccomplete#Complete
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" Autocompletion
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType c set omnifunc=ccomplete#Complete
+  " Syntax
+  " Choose the fold method depending of the file type
+  " and unfold when opening it
+  autocmd Syntax c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
+  autocmd Syntax python setlocal foldmethod=indent
+  autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,python normal zR
+
+  " FileType
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+  autocmd FileType html setlocal shiftwidth=2 tabstop=2
+  autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+  autocmd FileType vim setlocal shiftwidth=2 tabstop=2
+  autocmd FileType css setlocal shiftwidth=2 tabstop=2
+  autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+
+  autocmd Filetype javascript setlocal ts=4 sw=4 sts=0
+  autocmd Filetype coffeescript setlocal ts=4 sw=4 sts=0
+  autocmd Filetype jade setlocal ts=4 sw=4 sts=0
+
+  filetype on
+  filetype plugin on
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  filetype plugin indent on
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  " Also don't do it when the mark is in the first line, that is the default
+  " position when opening a file.
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
+endif " has("autocmd")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " Smart Home
 """""""""""""""""""""""""""""""""""""""""""""""""""
 function! SmartHome()
-    let s:col = col(".")
-    normal! ^
-    if s:col == col(".")
-        normal! 0
-    endif
+  let s:col = col(".")
+  normal! ^
+  if s:col == col(".")
+    normal! 0
+  endif
 endfunction
 nnoremap <silent> <Home> :call SmartHome()<CR>
 inoremap <silent> <Home> <C-O>:call SmartHome()<CR>
