@@ -1,42 +1,38 @@
-"""""""""""""""""""""""""""""""""""
-" GLOBAL VIM SETTINGS
-"""""""""""""""""""""""""""""""""""
-
+"""""""""""""""""""""
+" Global Vim settings
+"""""""""""""""""""""
 set encoding=utf8
-" automatically change window's cwd to file's dir
-"set autochdir
 
-" When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-  finish
-endif
+" Automatically change window's cwd to file's dir.
+" Disabled as may conflict with plugins:
+"set autochdir
+" Set working directory to the current file:
+" https://vim.fandom.com/wiki/Set_working_directory_to_the_current_file
+autocmd BufEnter * silent! lcd %:p:h
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+" Keep 5000 lines of command line history
+set history=5000
+" Show the cursor position all the time
+set ruler
+" Show (partial) command in the last line of the screen
+set showcmd
 
-if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-else
-  set nobackup		" do not keep a backup file
-endif
+" Show te line numbers
+set number
+"Color the line number in a different color
+"highlight LineNr guifg=lightblue ctermfg=lightgray
+"highlight LineNr ctermbg=darkcyan ctermbg=black
 
-set history=5000	" keep 5000 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
+" Set a light blue colored column at 79
+set colorcolumn=79
+highlight ColorColumn ctermbg=lightblue guibg=lightblue
+" Highlight the lines that exceed the lenght 80 chars.
+" Disabled as this can be a noisy!
+" match ErrorMsg '\%>80v.\+'
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -52,94 +48,83 @@ if &t_Co > 2 || has("gui_running")
   set t_ut=
 endif
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
-endif
-
 if has('gui_running')
   set background=light
 else
   set background=dark
 endif
 
-set number              " show te line numbers
-"color the line number in a different color
-"highlight LineNr guibg=lightblue ctermbg=lightgray
-"highlight LineNr ctermfg=darkcyan ctermbg=black
+" Maintain undo history between sessions
+set undofile
+set undodir=~/.vim/undodir
 
-" Highlight the lines that exceed the lenght 80 chars
-" match ErrorMsg '\%>80v.\+'
-
-set colorcolumn=79
-:hi ColorColumn ctermbg=lightblue guibg=lightblue
-
-set thesaurus+=~/.vim/thesaurus/mthesaur.txt
-" When vimrc is edited, reload it!
-" autocmd bufwritepost vimrc source ~/.vimrc
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"  Text, tab and indent related
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Formatting
-""""""""""""
-set expandtab       "Use softtabstop spaces instead of tab characters for indentation
-set shiftwidth=4    "Indent by 4 spaces when using >>, <<, == etc.
-set softtabstop=4   "Indent by 4 spaces when pressing <TAB>
-set autoindent      "Keep indentation from previous line
-set smartindent     "Automatically inserts indentation in some cases
-set cindent         "Like smartindent, but stricter and more customisable
-set tabstop=4  " Tabs are 4 spaces
-
-set backspace=2           " allow backspacing over everything in insert mode
-set diffopt=filler,iwhite " keep files synced and ignore whitespace
-set virtualedit=block     " let blocks be in virutal edit mode
-set wildmenu              " This is used with wildmode(full) to cycle options
-set cinoptions=:0,p0,t0
-set cinwords=if,else,while,do,for,switch,case
-set formatoptions=tcqr
-set smarttab
-set textwidth=0           " Don't wrap words by default
-"set textwidth=80          " This wraps a line with a break when you reach 80 chars
-set smarttab
-set lbr
-set wrap "Wrap lines
-set linebreak             " This displays long lines as wrapped at word boundries
-
-" Suffixes that get lower priority when doing tab completion for filenames.
-" These are files I am not likely to want to edit or read.
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.class
-
-""""""""""""""""
-" Sudo writing
-""""""""""""""""
-" Allow saving of files as sudo when you forgot to start vim using sudo.
-command Wsudo w !sudo tee > /dev/null %
-
-""""""""""
-" Visual
-""""""""""
-set showmatch             " Show matching brackets.
-set mat=5  " Bracket blinking.
+" Show matching brackets.
+set showmatch
+" Tenths of a second to show the matching parent, when 'showmatch' is set
+set mat=5
 set list
+
 " Show $ at end of line and trailing space as ~
 set listchars=tab:\ \ ,eol:\ \,trail:~,extends:>,precedes:<
 set novisualbell  " No blinking .
 set noerrorbells  " No noise.
+
 set laststatus=2  " Always show status line.
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" Searching, substitutions
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" make search case-insensitive. Used for Cntrl-N
+""""""""""""
+" Formatting
+""""""""""""
+" Indent by 4 spaces when pressing <TAB>
+set softtabstop=4
+" Use softtabstop spaces instead of tab characters for indentation
+set expandtab
+" A Tab inserts blanks according to shiftwidth
+set smarttab
+" Indent by 4 spaces when using >>, <<, == etc.
+set shiftwidth=4
+" Keep indentation from previous line
+set autoindent
+" Automatically inserts indentation in some conditions
+" (i.e. line ending with {)
+set smartindent
+" Like smartindent, but stricter and more customisable
+set cindent
+set cinoptions=:0,p0,t0
+" Add extra indent in next line when this words occur
+set cinwords=if,else,while,do,for,switch,case
+" Tabs are 4 spaces
+set tabstop=4
+" Allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+" Let blocks be in virutal edit mode
+set virtualedit=block
+" This is used with wildmode(full) to cycle options
+set wildmenu
+set formatoptions=tcqr
+" Do not break line
+set textwidth=0
+"Wrap lines
+set wrap
+" This displays long lines as wrapped at word boundaries
+" (do not affect file content)
+set linebreak
+
+"Files with these suffixes get a lower priority when multiple files match a wildcard.
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.class
+
+" During diff mode, keep files synced and ignore whitespace
+set diffopt=filler,iwhite
+
+""""""""""""""""
+" Search/replace
+""""""""""""""""
+" Make search case-insensitive. Used for Cntrl-N
 set ignorecase
+" Override the ignorecase if the search pattern contains uppercase chars
 set smartcase
-"show the `best match so far' as search strings are typed:
-set incsearch             " Incremental search
-" highlights the matching words
+" While typing the search show the pattern
+set incsearch
+" Highlights the matching words
 set hlsearch
 
 " Set the dictionaries
@@ -151,139 +136,56 @@ for dict_path in split(globpath("/usr/share/dict/", "*"), "\n")
   exec "set dictionary+=".dict_path
 endfor
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" Autocmd
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-  " Autocompletion
-  autocmd FileType python set omnifunc=pythoncomplete#Complete
-  autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-  autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType c set omnifunc=ccomplete#Complete
-
-  " Syntax
-  " Choose the fold method depending of the file type
-  " and unfold when opening it
-  autocmd Syntax c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
-  autocmd Syntax python setlocal foldmethod=indent
-  autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,python normal zR
-
-  " FileType
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-  autocmd FileType html setlocal shiftwidth=2 tabstop=2
-  autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
-  autocmd FileType vim setlocal shiftwidth=2 tabstop=2
-  autocmd FileType css setlocal shiftwidth=2 tabstop=2
-  autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
-
-  autocmd Filetype javascript setlocal ts=4 sw=4 sts=0
-  autocmd Filetype coffeescript setlocal ts=4 sw=4 sts=0
-  autocmd Filetype jade setlocal ts=4 sw=4 sts=0
-
-  filetype on
-  filetype plugin on
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  " Also don't do it when the mark is in the first line, that is the default
-  " position when opening a file.
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-
-endif " has("autocmd")
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-" Smart Home
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-function! SmartHome()
-  let s:col = col(".")
-  normal! ^
-  if s:col == col(".")
-    normal! 0
-  endif
-endfunction
-nnoremap <silent> <Home> :call SmartHome()<CR>
-inoremap <silent> <Home> <C-O>:call SmartHome()<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" General mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" To switch between windows (Warn: it may conflicts)
-"map <silent> <C-h> <C-w>h
-"map <silent> <C-j> <C-W>j
-"map <silent> <C-k> <C-W>k
-"map <silent> <C-l> <C-w>l
-
-
-" Maps to resizing a window split (Warn: conflict with indentation)
-if bufwinnr(1)
-  "map <silent> < <C-w><
-  map <silent> - <C-W>-
-  map <silent> + <C-W>+
-  "map <silent> > <C-w>>
-endif
-
-" Maximize a window
-map <silent> _ <C-w>_<C-w><Bar>
-
-" Spell keybindings
-map <silent> <Leader>os i<C-x>s
-map <Leader>of :set spellfile=~/.vim/spell/
-map <Leader>ol :set spell spelllang=
-map <silent> <Leader>or :set nospell<cr>
-map <silent> <Leader>oa zg
-map <silent> <Leader>on ]s
-map <silent> <Leader>op [s
-
-
-"" to disable the indentation when paste codes
-nnoremap <leader>d :set invpaste paste?<CR>
-set pastetoggle=<leader>d
-set showmode
-
-
-" Use tabs like Firefox
-map <C-t> :tabnew<cr>
-map <C-p> :tabprevious<cr>
-map <C-n> :tabnext<cr>
-map <C-q> :tabclose<cr>
-
 " Search, replace
 map <Leader>s :%s/old/new/gc
 
-" Block indentation
-" Allow to let indent the selection as many time as you want
-vnoremap < <gv
-vnoremap > >gv
+""""""""""""""""
+" Spell settings
+""""""""""""""""
+set spellfile=~/.vim/spell/en.utf-8.add
+set spell spelllang=en
+" Provide spell suggestions
+map <silent> <Leader>os i<C-x>s
+" Set new language for spelling
+map <Leader>ol :set spell spelllang=
+" Disable spell
+map <silent> <Leader>or :set nospell<cr>
+" Add spell exception to the spell file
+map <silent> <Leader>oa zg
+" Go to the next/previous spell error
+map <silent> <Leader>on ]s
+map <silent> <Leader>op [s
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""
+" Windows settings
+""""""""""""""""""
+" Maps to resizing a window split (Warn: conflict with indentation)
+" Another alternative is to use submode:
+" https://vi.stackexchange.com/questions/3632/how-to-repeat-a-mapping-when-keeping-key-pressed
+if bufwinnr(1)
+  map <silent> + <C-W>+
+  map <silent> - <C-W>-
+  "map <silent> > <C-w>>
+  "map <silent> < <C-w><
+endif
+
+" Maximize a window
+map <silent> _ <C-w>_
+map <silent> <Bar> <C-w><Bar>
+map <silent> = <C-w>=
+
+"""""""""
 " Explore
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" to browse filesystem
+"""""""""
 nnoremap <silent> <Leader>e :Explore<CR>
 
-" hide .pyc and hidden files
+" Hide .pyc and hidden files
 let g:explHideFiles='^\.,.*\.pyc$'
 let g:netrw_list_hide='^\.,.*\.pyc$'
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""
 " Session
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-
+"""""""""
 "nmap SQ <ESC>:mksession! ~/vim/Session.vim<CR>:wqa<CR>
 "function! RestoreSession()
     "if argc() == 0 "vim called without arguments
@@ -296,33 +198,94 @@ nmap <Leader>sa :wa<CR>:mksession! ~/.vim/sessions/
 nmap <Leader>so :wa<CR>:so ~/.vim/sessions/
 nmap <Leader>sr :!rm ~/.vim/sessions/
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" File type specific settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+filetype on
+filetype plugin on
+" Automatically do language-dependent indenting.
+filetype plugin indent on
 
-"""""""""""""""""""
-" OmniComplete
-"""""""""""""""""""
-" Popup menu hightLight Group
-"highlight Pmenu ctermbg=13 guibg=LightGray
-"highlight PmenuSel ctermbg=7 guibg=DarkBlue guifg=White
-"highlight PmenuSbar ctermbg=7 guibg=DarkGray
-"highlight PmenuThumb guibg=Black
+" Autocompletion
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType c set omnifunc=ccomplete#Complete
+"From https://vim.fandom.com/wiki/Completion_using_a_syntax_file
+setlocal omnifunc=syntaxcomplete#Complete
 
-"" Allows tab completion for files, plugin and context (but not dictionary)
-"function! Smart_TabComplete()
-  "let line = getline('.')                         " curline
-  "let substr = strpart(line, -1, col('.')+1)      " from start to cursor
-  "let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
-  "if (strlen(substr)==0)                          " nothing to match on empty string
-    "return "\<tab>"
-  "endif
-  "let has_period = match(substr, '\.') != -1      " position of period, if any
-  "let has_slash = match(substr, '\/') != -1       " position of slash, if any
-  "if (!has_period && !has_slash)
-    "return "\<C-X>\<C-P>"                         " existing text matching
-  "elseif ( has_slash )
-    "return "\<C-X>\<C-F>"                         " file matching
-  "else
-    "return "\<C-X>\<C-O>"                         " plugin matching
-  "endif
-"endfunction
+" Syntax
+" Choose the fold method depending of the file type
+" and unfold when opening it
+autocmd Syntax c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
+autocmd Syntax python setlocal foldmethod=indent
+autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,python normal zR
 
-"inoremap <tab> <c-r>=Smart_TabComplete()<CR>
+" To check where the setting of a given variable occurred use (for
+" debugging)
+" :verbose setlocal tabstop?
+" For all text files set 'textwidth' to 79 characters.
+autocmd FileType text setlocal textwidth=79
+autocmd FileType markdown setlocal textwidth=79
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+autocmd FileType vim setlocal shiftwidth=2 tabstop=2
+autocmd FileType css setlocal shiftwidth=2 tabstop=2
+autocmd Filetype javascript setlocal tabstop=4 shiftwidth=4 softtabstop=0
+autocmd Filetype coffeescript setlocal tabstop=4 shiftwidth=4 softtabstop=0
+autocmd Filetype jade setlocal tabstop=4 shiftwidth=4 softtabstop=0
+
+""""""""""""""""
+" Other settings
+""""""""""""""""
+" Sudo writing command
+" Allow saving of files as sudo when you forgot to start vim using sudo.
+command Wsudo w !sudo tee > /dev/null %
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+
+" Smart Home
+function! SmartHome()
+  let s:col = col(".")
+  normal! ^
+  if s:col == col(".")
+    normal! 0
+  endif
+endfunction
+nnoremap <silent> <Home> :call SmartHome()<CR>
+inoremap <silent> <Home> <C-O>:call SmartHome()<CR>
+
+" Disable the indentation when pasting text
+nnoremap <leader>d :set invpaste paste?<CR>
+set pastetoggle=<leader>d
+set showmode
+
+" Use tabs like Firefox
+map <C-t> :tabnew<cr>
+map <C-p> :tabprevious<cr>
+map <C-n> :tabnext<cr>
+map <C-q> :tabclose<cr>
+
+" Block indentation
+" Allow to let indent the selection as many time as you want
+vnoremap < <gv
+vnoremap > >gv
+
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+" Also don't do it when the mark is in the first line, that is the default
+" position when opening a file.
+autocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
