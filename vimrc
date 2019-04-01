@@ -21,6 +21,9 @@ set ruler
 " Show (partial) command in the last line of the screen
 set showcmd
 
+" Hide buffers instead of closing them.
+set hidden
+
 " Show te line numbers
 set number
 "Color the line number in a different color
@@ -62,10 +65,10 @@ set undodir=~/.vim/undodir
 set showmatch
 " Tenths of a second to show the matching parent, when 'showmatch' is set
 set mat=5
-set list
 
 " Show $ at end of line and trailing space as ~
-set listchars=tab:\ \ ,eol:\ \,trail:~,extends:>,precedes:<
+set listchars=tab:>-,eol:\ \,trail:~,extends:>,precedes:<
+set list
 set novisualbell  " No blinking .
 set noerrorbells  " No noise.
 
@@ -98,7 +101,7 @@ set tabstop=4
 set backspace=indent,eol,start
 " Let blocks be in virutal edit mode
 set virtualedit=block
-" This is used with wildmode(full) to cycle options
+" Tab path completion like bash
 set wildmenu
 set formatoptions=tcqr
 " Do not break line
@@ -228,7 +231,7 @@ autocmd Syntax c,cpp,vim,xml,html,xhtml,perl,python normal zR
 " :verbose setlocal tabstop?
 " For all text files set 'textwidth' to 79 characters.
 autocmd FileType text setlocal textwidth=79
-autocmd FileType markdown setlocal textwidth=79
+autocmd FileType markdown setlocal textwidth=79 shiftwidth=2 tabstop=2
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
 autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
