@@ -1,0 +1,15 @@
+
+
+set guifont=<FONTNAME>\ <FONTSIZE>
+
+
+" Add right-click menu
+set mousemodel=popup
+
+" Force to use vim keys more often
+" http://vim.wikia.com/wiki/Hide_toolbar_or_menus_to_see_more_text
+set guioptions-=T  "remove toolbar
+"set guioptions-=m  "remove menu bar
+"set guioptions-=e  "remove gui tabs
+"set guioptions-=r  "remove right-hand scroll bar
+
