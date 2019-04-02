@@ -1,6 +1,6 @@
 
 
-set guifont=<FONTNAME>\ <FONTSIZE>
+set guifont=<FONTNAME><FONTSEP><FONTSIZE>
 
 
 " Add right-click menu

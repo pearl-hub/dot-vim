@@ -41,9 +41,15 @@ _new_gvimrc() {
         return 1
     fi
 
-    local fontname=$(choose "Which mono font would you like (for full list run fc-list)?" "${fontlist[0]}" "${fontlist[@]}" | sed 's/ /\\\\ /g')
+    local fontname=$(choose "Which mono font would you like (for full list run fc-list)?" "${fontlist[0]}" "${fontlist[@]}" | sed  -e 's/^[[:space:]]*//' -e 's/ /\\\\ /g')
     local fontsize=$(input "Which font size would you like?" "18")
-    sed -e "s/<FONTNAME>/$fontname/g" -e "s/<FONTSIZE>/$fontsize/g" "$PEARL_PKGDIR/gvimrc-template" > "$PEARL_PKGVARDIR/gvimrc"
+    if osx_detect
+    then
+        local fontsep=":h"
+    else
+        local fontsep="\\\ "
+    fi
+    sed -e "s/<FONTSEP>/$fontsep/g" -e "s/<FONTNAME>/$fontname/g" -e "s/<FONTSIZE>/$fontsize/g" "$PEARL_PKGDIR/gvimrc-template" > "$PEARL_PKGVARDIR/gvimrc"
 
     return 0
 }
