@@ -1,4 +1,7 @@
 post_install() {
+    # Create the vim dotfiles and spell directories
+    mkdir -p ${HOME}/.vim/spell
+
     if ask "Do you want to setup gvimrc too?" "N"
     then
         pearl emerge ${PEARL_PKGREPONAME}/fonts
