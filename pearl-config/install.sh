@@ -9,6 +9,7 @@ post_install() {
         setup_configuration "${PEARL_PKGVARDIR}/gvimrc" \
             _new_gvimrc _apply_gvimrc _unapply_gvimrc
     fi
+    return 0
 }
 
 post_update() {
