@@ -24,8 +24,10 @@ set showcmd
 " Hide buffers instead of closing them.
 set hidden
 
-" Show te line numbers
+" Show the line numbers
 set number
+set relativenumber
+
 "Color the line number in a different color
 "highlight LineNr guifg=lightblue ctermfg=lightgray
 "highlight LineNr ctermbg=darkcyan ctermbg=black
@@ -248,6 +250,9 @@ autocmd Filetype jade setlocal tabstop=4 shiftwidth=4 softtabstop=0
 " Allow saving of files as sudo when you forgot to start vim using sudo.
 command Wsudo w !sudo tee > /dev/null %
 
+" Create the `tags` file (ctags command is required)
+command! MakeTags !ctags -R .
+
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
@@ -292,3 +297,30 @@ autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
+
+" Autoclose tags
+" https://aonemd.github.io/blog/handy-keymaps-in-vim
+inoremap ( ()<Left>
+inoremap { {}<Left>
+inoremap [ []<Left>
+inoremap " ""<Left>
+
+" Move to the split in the direction shown, or create a new split
+" https://aonemd.github.io/blog/handy-keymaps-in-vim
+nnoremap <silent> <C-h> :call WinMove('h')<cr>
+nnoremap <silent> <C-j> :call WinMove('j')<cr>
+nnoremap <silent> <C-k> :call WinMove('k')<cr>
+nnoremap <silent> <C-l> :call WinMove('l')<cr>
+
+function! WinMove(key)
+  let t:curwin = winnr()
+  exec "wincmd ".a:key
+  if (t:curwin == winnr())
+    if (match(a:key,'[jk]'))
+      wincmd v
+    else
+      wincmd s
+    endif
+    exec "wincmd ".a:key
+  endif
+endfunction
