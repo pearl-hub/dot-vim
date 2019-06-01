@@ -1,4 +1,7 @@
 post_install() {
+    info "Applying dotfile for ideavim in ${HOME}/.ideavimrc"
+    apply "source ${PEARL_PKGDIR}/ideavimrc" "${HOME}/.ideavimrc"
+
     # Create the vim dotfiles and spell directories
     mkdir -p ${HOME}/.vim/spell
 
@@ -18,6 +21,7 @@ post_update() {
 
 pre_remove() {
     _unapply_gvimrc
+    unapply "source ${PEARL_PKGDIR}/ideavimrc" "${HOME}/.ideavimrc"
 }
 
 _new_gvimrc() {

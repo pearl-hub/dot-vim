@@ -1,0 +1,87 @@
+" References:
+" - Mouseless Driven Development by Hadi Hariri https://www.youtube.com/watch?v=UH6YVv9js3s 
+" - https://github.com/danidiaz/miscellany/blob/master/windows/.ideavimrc
+" - https://github.com/JetBrains/ideavim
+" - https://github.com/Valloric/dotfiles/blob/master/intellij/ideavimrc
+" - https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf
+
+" Number of command-lines that are remembered"
+set history=5000
+
+" Make search case-insensitive. Used for Cntrl-N
+set ignorecase
+" Override the ignorecase if the search pattern contains uppercase chars
+set smartcase
+" While typing the search show the pattern
+set incsearch
+" Highlights the matching words
+set hlsearch
+
+" Show the line numbers
+set number
+set relativenumber
+
+" Lines to scroll with CTRL-U and CTRL-D
+set scroll
+
+" Message on status line to show current mode"
+set showmode
+
+" Use visual bell instead of beeping
+set visualbell
+
+" Plugins
+set surround
+set multiple-cursors
+
+" These are leader-based alternative shortcuts for actions whose corresponding
+" idea shortcuts require hand-stretching combinations, function keys, Home or
+" Insert.
+" To see the list of all available actions:
+"  :actionlist
+
+" Shift + F6 in idea.
+" Alt + R, then R (through the menu bar) also seems to work fine.
+map <Leader>r :action RenameElement<CR>
+
+" Ctrl + F12 in idea.
+map <Leader>s :action FileStructurePopup<CR>
+
+" Perhaps just use the Idea shortcut Ctrl-Alt-B
+" Alt + N, then m (through the menu bar) also seems to work, but it is
+" non-unique.
+map <Leader>i :action GotoImplementation<CR>
+
+" Alt + F7 in idea.
+" Find usages in file is Ctrl + F7.
+" Alt + E, then F, then U (through the menu bar) also seems to work fine.
+map <Leader>u :action FindUsages<CR>
+
+" Alt + Insert in idea.
+map <Leader>g :action Generate<CR>
+
+" F12 in idea
+map <Leader>w :action JumpToLastWindow<CR>
+
+"map <Leader>r :action ChooseRunConfiguration<CR>
+
+" See also Ctrl + Shift + H for method hierarchy, Ctrl + Alt + H for call
+" hierarchy.
+map <Leader>h :action TypeHierarchy<CR>
+
+" Same as default IDEA action, but only in insert mode. Enter block-visual
+" mode in normal mode.
+imap <C-v> <Esc>:action $Paste<CR>
+
+" This is for going to related symbols.
+" I can't find any effect in the community edition.
+" map <Leader>g :action GotoRelated<CR>
+
+" Can also use Ctrl-Shift-[
+map <Leader>[ :action EditorCodeBlockStart<CR>
+
+" Can also use Ctrl-Shift-]
+map <Leader>] :action EditorCodeBlockEnd<CR>
+
+" uppercase last inserted word
+map <Leader>l g~iw

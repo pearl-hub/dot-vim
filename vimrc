@@ -303,7 +303,8 @@ autocmd BufReadPost *
 inoremap ( ()<Left>
 inoremap { {}<Left>
 inoremap [ []<Left>
-inoremap " ""<Left>
+" disable the following, does work well with multiple-cursors plugin
+" inoremap " ""<Left>
 
 " Move to the split in the direction shown, or create a new split
 " https://aonemd.github.io/blog/handy-keymaps-in-vim
