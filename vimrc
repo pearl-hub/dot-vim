@@ -48,15 +48,8 @@ endif
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
   syntax on
-  set hlsearch
   " disable the background color erase
   set t_ut=
-endif
-
-if has('gui_running')
-  set background=light
-else
-  set background=dark
 endif
 
 " Maintain undo history between sessions
