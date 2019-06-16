@@ -64,8 +64,13 @@ set mat=5
 " Show $ at end of line and trailing space as ~
 set listchars=tab:>-,eol:\ \,trail:~,extends:>,precedes:<
 set list
-set novisualbell  " No blinking .
-set noerrorbells  " No noise.
+
+" No blinking
+set novisualbell
+" No noise
+set noerrorbells
+" No audio/visual bell
+set visualbell t_vb=
 
 set laststatus=2  " Always show status line.
 
