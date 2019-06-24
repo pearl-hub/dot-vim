@@ -112,6 +112,10 @@ set wrap
 " (do not affect file content)
 set linebreak
 
+" Folding
+set foldcolumn=1
+let g:markdown_folding = 1
+
 "Files with these suffixes get a lower priority when multiple files match a wildcard.
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.class
 
