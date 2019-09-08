@@ -279,13 +279,11 @@ nnoremap <leader>d :set invpaste paste?<CR>
 set pastetoggle=<leader>d
 set showmode
 
-" Tab navigation like Firefox.
-nnoremap <C-S-tab> :tabprevious<CR>
-nnoremap <C-tab>   :tabnext<CR>
-nnoremap <C-t>     :tabnew<CR>
-inoremap <C-S-tab> <Esc>:tabprevious<CR>i
-inoremap <C-tab>   <Esc>:tabnext<CR>i
-inoremap <C-t>     <Esc>:tabnew<CR>
+" Use tabs like Firefox
+map <C-t> :tabnew<cr>
+map <C-p> :tabprevious<cr>
+map <C-n> :tabnext<cr>
+map <C-q> :tabclose<cr>
 
 " Block indentation
 " Allow to let indent the selection as many time as you want
