@@ -106,11 +106,12 @@ map <Leader>v :action VimWindowSplitVertical<CR>
 map J :action NextTab<CR>
 map K :action PreviousTab<CR>
 
-" Disabled as <C-j> seems cannot be overridden
-"map <C-k> :action VimWindowUp<CR>
-"map <C-j> :action VimWindowDown<CR>
-"map <C-h> :action VimWindowLeft<CR>
-"map <C-l> :action VimWindowRight<CR>
+" Requires to override <C-j> in Preferences -> Vim emulation
+map <C-k> :action VimWindowUp<CR>
+map <C-j> :action VimWindowDown<CR>
+map <C-h> :action VimWindowLeft<CR>
+map <C-l> :action VimWindowRight<CR>
 
+" Requires to override <C-o> in Preferences -> Vim emulation
 map <C-o> :action VimMotionJumpPrevious<CR>
 map <C-i> :action VimMotionJumpNext<CR>
