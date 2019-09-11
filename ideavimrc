@@ -102,3 +102,15 @@ map <Leader>f :action GotoFile<CR>
 map <Leader>h :action VimWindowSplitHorizontal<CR>
 
 map <Leader>v :action VimWindowSplitVertical<CR>
+
+map J :action NextTab<CR>
+map K :action PreviousTab<CR>
+
+" Disabled as <C-j> seems cannot be overridden
+"map <C-k> :action VimWindowUp<CR>
+"map <C-j> :action VimWindowDown<CR>
+"map <C-h> :action VimWindowLeft<CR>
+"map <C-l> :action VimWindowRight<CR>
+
+map <C-o> :action VimMotionJumpNext<CR>
+map <C-i> :action VimMotionJumpPrevious<CR>
