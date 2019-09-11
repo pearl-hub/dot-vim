@@ -86,14 +86,15 @@ map <Leader>] :action EditorCodeBlockEnd<CR>
 " uppercase last inserted word
 map <Leader>l g~iw
 
-" Find action
-map <Leader>ga :action GotoAction<CR>
+" Find action Ctrl-Shift-A
+map <Leader>a :action GotoAction<CR>
 
-" Find class
-map <Leader>gc :action GotoClass<CR>
+" Find class Ctrl+n
+map <Leader>c :action GotoClass<CR>
 
-" Find symbol
-map <Leader>gs :action GotoSymbol<CR>
+" Conflicts with FileStructurePopup. Disabling for now.
+" Find symbol Ctrl+Shift+Alt+n
+"map <Leader>s :action GotoSymbol<CR>
 
-" Find File
-map <Leader>gf :action GotoFile<CR>
+" Find File Ctrl+Shift+n
+map <Leader>f :action GotoFile<CR>
