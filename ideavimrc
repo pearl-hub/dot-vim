@@ -112,5 +112,5 @@ map K :action PreviousTab<CR>
 "map <C-h> :action VimWindowLeft<CR>
 "map <C-l> :action VimWindowRight<CR>
 
-map <C-o> :action VimMotionJumpNext<CR>
-map <C-i> :action VimMotionJumpPrevious<CR>
+map <C-o> :action VimMotionJumpPrevious<CR>
+map <C-i> :action VimMotionJumpNext<CR>
