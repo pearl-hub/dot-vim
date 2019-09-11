@@ -67,7 +67,7 @@ map <Leader>w :action JumpToLastWindow<CR>
 
 " See also Ctrl + Shift + H for method hierarchy, Ctrl + Alt + H for call
 " hierarchy.
-map <Leader>h :action TypeHierarchy<CR>
+map <Leader>th :action TypeHierarchy<CR>
 
 " Same as default IDEA action, but only in insert mode. Enter block-visual
 " mode in normal mode.
@@ -98,3 +98,7 @@ map <Leader>c :action GotoClass<CR>
 
 " Find File Ctrl+Shift+n
 map <Leader>f :action GotoFile<CR>
+
+map <Leader>h :action VimWindowSplitHorizontal<CR>
+
+map <Leader>v :action VimWindowSplitVertical<CR>
