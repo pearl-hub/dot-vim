@@ -103,6 +103,8 @@ map <Leader>h :action VimWindowSplitHorizontal<CR>
 
 map <Leader>v :action VimWindowSplitVertical<CR>
 
+map <Leader>d :action QuickJavaDoc<CR>
+
 map J :action NextTab<CR>
 map K :action PreviousTab<CR>
 
