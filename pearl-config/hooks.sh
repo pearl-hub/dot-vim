@@ -7,8 +7,6 @@ post_install() {
 
     if ask "Do you want to setup gvimrc too?" "N"
     then
-        pearl emerge ${PEARL_PKGREPONAME}/fonts
-
         setup_configuration "${PEARL_PKGVARDIR}/gvimrc" \
             _new_gvimrc _apply_gvimrc _unapply_gvimrc
     fi
