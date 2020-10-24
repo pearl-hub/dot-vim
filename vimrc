@@ -327,3 +327,8 @@ function! WinMove(key)
     exec "wincmd ".a:key
   endif
 endfunction
+
+
+" FZF command is available if fzf has been installed into the system
+" https://github.com/junegunn/fzf/blob/master/README-VIM.md
+map <Leader>f :FZF<CR>
