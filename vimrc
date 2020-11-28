@@ -149,8 +149,8 @@ map <Leader>s :%s/old/new/gc
 """"""""""""""""
 " Spell settings
 """"""""""""""""
-set spellfile=~/.vim/spell/en.utf-8.add
-set spell spelllang=en
+set spellfile=~/.vim/spell/add-spell.utf-8.spl
+set spell spelllang=en,it,es
 " Provide spell suggestions
 map <silent> <Leader>os i<C-x>s
 " Set new language for spelling
@@ -302,9 +302,10 @@ autocmd BufReadPost *
 
 " Autoclose tags
 " https://aonemd.github.io/blog/handy-keymaps-in-vim
-inoremap ( ()<Left>
-inoremap { {}<Left>
-inoremap [ []<Left>
+" Disabling as it can be very annoying
+"inoremap ( ()<Left>
+"inoremap { {}<Left>
+"inoremap [ []<Left>
 " disable the following, does work well with multiple-cursors plugin
 " inoremap " ""<Left>
 
