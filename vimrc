@@ -150,7 +150,7 @@ map <Leader>s :%s/old/new/gc
 " Spell settings
 """"""""""""""""
 set spellfile=~/.vim/spell/spell.utf-8.add
-set spell spelllang=en,it,es
+set spell spelllang=en
 " Provide spell suggestions
 map <silent> <Leader>os i<C-x>s
 " Set new language for spelling
